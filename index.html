@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLLPROPLANNER | Sua Plataforma de Gestão</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --text-light: #f8f9fa;
+            --text-dark: #2b2d42;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            height: 100vh;
+            display: flex;
+            background: url('imagens/fundo.jpg') no-repeat center center;
+            background-size: cover;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        /* Seção Hero */
+        .hero-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 1rem;
+            color: var(--success);
+            font-size: 2.2rem;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: var(--shadow-md);
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 90%;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.25);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature i {
+            margin-right: 1rem;
+            color: var(--success);
+            font-size: 1.5rem;
+        }
+
+        .feature span {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Seção de Formulários */
+        .form-section {
+            width: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--card-bg);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 3rem;
+        }
+
+        .form-box {
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-box h2 {
+            text-align: center;
+            color: var(--primary-dark);
+            margin-bottom: 2.5rem;
+            font-size: 2.2rem;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .form-box h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #f8f9fa;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background: white;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 3.1rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .form-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .form-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+        }
+
+        .form-button:active {
+            transform: translateY(0);
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .toggle-form a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .toggle-form a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        /* Mensagem de sucesso */
+        .success-message {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--success), var(--primary-light));
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .success-message.show {
+            top: 2rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .hero-section h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-section {
+                padding: 0 8%;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .form-section {
+                width: 450px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            .hero-section {
+                padding: 5rem 5% 3rem;
+                text-align: center;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .hero-section p {
+                max-width: 100%;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                width: 100%;
+            }
+            
+            .form-section {
+                width: 100%;
+                padding: 3rem 5%;
+                border-radius: 30px 30px 0 0;
+            }
+            
+            .form-container {
+                padding: 0;
+                max-width: 500px;
+            }
+            
+            .success-message {
+                width: 90%;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+            
+            .form-box h2 {
+                font-size: 1.8rem;
+            }
+            
+            .form-container {
+                padding: 0 1.5rem;
+            }
+            
+            .input-group i {
+                top: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Seção Hero -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>FLLPROPLANNER</span>
+            </div>
+            <h1>Transforme sua produtividade</h1>
+            <p>Gerencie projetos, equipes e tarefas com nossa plataforma tudo-em-um. Simplifique seu fluxo de trabalho e alcance mais resultados em menos tempo.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Gestão de projetos intuitiva</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Colaboração em tempo real</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Relatórios automatizados</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Integrações poderosas</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Formulários -->
+    <section class="form-section">
+        <div class="form-container">
+            <!-- Formulário de Registro -->
+            <div class="form-box" id="registerBox">
+                <h2>Crie sua conta</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label for="name">Nome completo</label>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Senha</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required minlength="6">
+                    </div>
+                    <button type="submit" class="form-button">
+                        <i class="fas fa-user-plus"></i> Registrar
+                    </button>
+                </form>
+                <div class="toggle-form">
+                    Já tem uma conta? <a id="showLogin">Faça login</a>
+                </div>
+            </div>
+
+            <!-- Formulário de Login (inicialmente escondido) -->
+            <div class="form-box" id="loginBox" style="display: none;">
+                <h2>Bem-vindo de volta</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="loginEmail">E-mail</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="loginPassword">Senha</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="form-button">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                </form>
+                <div class="toggle-form">
+                    Não tem conta? <a id="showRegister">Crie uma</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mensagem de sucesso -->
+    <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <span>Registro concluído com sucesso!</span>
+    </div>
+
+    <script>
+        // Elementos do DOM
+        const registerBox = document.getElementById('registerBox');
+        const loginBox = document.getElementById('loginBox');
+        const showLogin = document.getElementById('showLogin');
+        const showRegister = document.getElementById('showRegister');
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        const successMessage = document.getElementById('successMessage');
+
+        // Alternar entre login e registro
+        showLogin.addEventListener('click', () => {
+            registerBox.style.animation = 'fadeIn 0.6s ease-out';
+            registerBox.style.display = 'none';
+            loginBox.style.display = 'block';
+        });
+
+        showRegister.addEventListener('click', () => {
+            loginBox.style.animation = 'fadeIn 0.6s ease-out';
+            loginBox.style.display = 'none';
+            registerBox.style.display = 'block';
+        });
+
+        // Processar registro
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Mostrar mensagem de sucesso
+            successMessage.classList.add('show');
+            
+            // Efeito de vai e volta na mensagem
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+                
+                // Mudar para tela de login após 1 segundo
+                setTimeout(() => {
+                    registerBox.style.display = 'none';
+                    loginBox.style.display = 'block';
+                    
+                    // Preencher automaticamente o email no login
+                    document.getElementById('loginEmail').value = email;
+                    
+                    // Limpar formulário de registro
+                    this.reset();
+                }, 500);
+                
+            }, 3000);
+        });
+
+        // Processar login (redireciona para dashboard)
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if(email && password) {
+                // Mostrar loading
+                const button = this.querySelector('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+                button.disabled = true;
+                
+                // Redirecionar após 1 segundo
+                setTimeout(() => {
+                    // Verifica se estamos usando um servidor local ou sistema de arquivos
+                    if(window.location.protocol === 'file:') {
+                        // Modo local (file://)
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        // Modo servidor (http://)
+                        window.location.href = 'dashboard.html';
+                    }
+                }, 1000);
+            } else {
+                alert('Por favor, preencha todos os campos!');
+            }
+        });
+
+        // Verificar se há parâmetros de redirecionamento na URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.has('redirect') && urlParams.get('redirect') === 'dashboard') {
+                document.getElementById('loginEmail').value = urlParams.get('email') || '';
+                document.getElementById('loginBox').style.display = 'block';
+                document.getElementById('registerBox').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
