@@ -3,630 +3,835 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FLLProPlanner - Dashboard</title>
+    <title>FLLPROPLANNER | Plataforma de Estratégias FLL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #4361ee;
+            --primary-light: #4895ef;
             --primary-dark: #3a56d4;
             --secondary: #3f37c9;
             --success: #4cc9f0;
             --warning: #f8961e;
             --danger: #f72585;
             --text-light: #f8f9fa;
-            --text-dark: #212529;
-            --card-bg: rgba(255, 255, 255, 0.96);
-            --transition: all 0.3s ease;
+            --text-dark: #2b2d42;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            /* Fundo otimizado com fallback */
-            background: #1a237e; /* Cor de fallback */
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                        url('https://i.pinimg.com/originals/cc/ac/c1/ccacc179221916e3aa0deb1ed71ed3ef.png') no-repeat center center/cover fixed;
-            position: relative;
-            padding: 15px;
+            background: url('https://i.pinimg.com/originals/cc/ac/c1/ccacc179221916e3aa0deb1ed71ed3ef.png') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-light);
             overflow-x: hidden;
+            position: relative;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--text-light);
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
 
-        .header h1 {
-            font-size: 1.8rem;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .header p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            opacity: 0.9;
-        }
-
-        .main-content {
+        /* Seção Hero */
+        .hero-section {
             flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .season-cards {
+        .hero-content {
+            max-width: 100%;
+            animation: fadeIn 1s ease-out;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            width: 100%;
+            text-align: center;
         }
 
-        .season-card {
-            width: 100%;
-            max-width: 400px;
-            height: 180px;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            cursor: pointer;
-            transition: var(--transition);
-            border: 2px solid rgba(255,255,255,0.3);
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            justify-content: center;
         }
 
-        .season-card:active {
-            transform: scale(0.98);
+        .logo i {
+            margin-right: 0.8rem;
+            color: var(--success);
+            font-size: 2rem;
         }
 
-        .season-card .card-bg {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: var(--transition);
-        }
-
-        .season-card .card-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 15px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            color: white;
-        }
-
-        .season-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+        .hero-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.3;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        .season-card p {
-            font-size: 0.85rem;
+        .hero-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
             opacity: 0.9;
+            max-width: 100%;
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-top: 5px;
-            background-color: var(--success);
-        }
-
-        .badge.warning {
-            background-color: var(--warning);
-        }
-
-        .badge.danger {
-            background-color: var(--danger);
-        }
-
-        /* Filtros */
-        .filters {
+        .features {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
             width: 100%;
-            margin: 0 auto 25px;
-            background: var(--card-bg);
-            padding: 20px 15px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            display: none;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.3);
+            max-width: 500px;
         }
 
-        .filters.active {
-            display: block;
-            animation: fadeIn 0.3s ease-out;
+        .feature {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: var(--shadow-sm);
+            will-change: transform;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.25);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature i {
+            margin-right: 0.8rem;
+            color: var(--success);
+            font-size: 1.3rem;
+            min-width: 24px;
+        }
+
+        .feature span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        /* Seção de Formulários */
+        .form-section {
+            width: 100%;
+            padding: 2rem 1.5rem;
+            background: var(--card-bg);
+            box-shadow: var(--shadow-lg);
+            border-radius: 30px 30px 0 0;
+            color: var(--text-dark);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-box {
+            width: 100%;
+            animation: fadeIn 0.4s ease-out;
+            will-change: transform, opacity;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            0% { 
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
-        .filters h2 {
+        .form-box h2 {
             text-align: center;
-            margin-bottom: 15px;
-            color: var(--primary);
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            color: var(--primary-dark);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            position: relative;
         }
 
-        .strategy-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .form-box h2::after {
+            content: '';
+            position: absolute;
+            bottom: -0.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 2px;
         }
 
-        .strategy-card {
-            background: white;
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 0.9rem 0.9rem 2.8rem;
+            border: 2px solid #e9ecef;
             border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
             transition: var(--transition);
-            border-left: 4px solid var(--primary);
+            background: #f8f9fa;
+            box-shadow: var(--shadow-sm);
         }
 
-        .strategy-card h3 {
+        .input-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background: white;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 0.9rem;
+            top: 2.6rem;
             color: var(--primary);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             font-size: 1.1rem;
         }
 
-        .strategy-card p {
-            color: var(--text-dark);
-            margin-bottom: 12px;
-            opacity: 0.8;
-            font-size: 0.85rem;
-        }
-
-        .strategy-form {
-            display: none;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #eee;
-        }
-
-        .strategy-form.active {
-            display: block;
-        }
-
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: var(--primary);
+        .form-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            display: inline-flex;
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            width: 100%;
             justify-content: center;
-            margin-bottom: 8px;
+            gap: 0.6rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn:active {
-            transform: scale(0.98);
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
         }
 
-        .btn-secondary {
-            background-color: #6c757d;
+        .form-button:active {
+            transform: translateY(0);
         }
 
-        .btn-bonus {
-            background-color: var(--warning);
-            margin-bottom: 15px;
+        .form-button.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.3);
+            z-index: 1;
         }
 
-        .results {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid var(--success);
+        .toggle-form {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #6c757d;
+            font-size: 0.9rem;
         }
 
-        .results.active {
-            display: block;
+        .toggle-form a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
         }
 
-        .results h3 {
-            color: var(--success);
-            margin-bottom: 12px;
-            font-size: 1.2rem;
+        .toggle-form a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
         }
 
-        .mission-list {
-            list-style: none;
-            max-height: 300px;
+        /* Mensagens */
+        .message {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            z-index: 9999;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: var(--transition);
+            max-width: 90%;
+            width: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .message.success {
+            background: linear-gradient(135deg, var(--success), var(--primary-light));
+            color: white;
+        }
+
+        .message.error {
+            background: linear-gradient(135deg, var(--danger), #f55f8d);
+            color: white;
+        }
+
+        .message.show {
+            top: 1.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 9998;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 1rem;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: var(--transition);
+            max-height: 90vh;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
-        .mission-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
-        .mission-item:last-child {
-            border-bottom: none;
-        }
-
-        .mission-points {
-            font-weight: 600;
-            color: var(--success);
-        }
-
-        .bonus-points {
-            color: var(--warning);
-            font-weight: bold;
-        }
-
-        .total-points {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 2px solid var(--success);
-            font-size: 1rem;
+        .modal-title {
+            font-size: 1.3rem;
             font-weight: 700;
-            text-align: right;
-            color: var(--primary);
+            color: var(--primary-dark);
         }
 
-        /* Melhorias para telas muito pequenas */
-        @media (max-width: 350px) {
-            .header h1 {
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        /* Responsividade para telas maiores */
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row;
+                height: 100vh;
+            }
+
+            .hero-section {
+                padding: 0 5%;
+                justify-content: center;
+                text-align: left;
+                align-items: flex-start;
+            }
+
+            .hero-content {
+                align-items: flex-start;
+                text-align: left;
+                max-width: 600px;
+            }
+
+            .logo {
+                justify-content: flex-start;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-section p {
+                max-width: 90%;
+                font-size: 1.1rem;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.2rem;
+            }
+
+            .feature span {
+                font-size: 0.9rem;
+            }
+
+            .form-section {
+                width: 450px;
+                padding: 0;
+                border-radius: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .form-container {
+                padding: 0 2rem;
+            }
+
+            .form-box h2 {
+                font-size: 2rem;
+            }
+
+            .input-group input {
+                padding: 1rem 1rem 1rem 3rem;
+            }
+
+            .input-group i {
+                top: 2.8rem;
+            }
+
+            .form-button {
+                padding: 1.1rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .hero-section h1 {
+                font-size: 3rem;
+            }
+
+            .hero-section p {
+                font-size: 1.2rem;
+            }
+
+            .features {
+                gap: 1.5rem;
+            }
+
+            .feature {
+                padding: 1.5rem;
+            }
+
+            .feature span {
+                font-size: 1rem;
+            }
+        }
+
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 400px) {
+            .hero-section {
+                padding: 1.5rem 1rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-section p {
+                font-size: 0.9rem;
+            }
+            
+            .logo {
                 font-size: 1.5rem;
             }
             
-            .season-card {
-                height: 150px;
+            .logo i {
+                font-size: 1.7rem;
             }
             
-            .season-card h2 {
-                font-size: 1.3rem;
-            }
-        }
-
-        /* Ajustes para tablets e telas maiores */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
+            .form-section {
+                padding: 1.5rem 1rem;
             }
             
-            .header h1 {
-                font-size: 2.2rem;
+            .form-box h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
             }
             
-            .header p {
+            .input-group input {
+                padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+            }
+            
+            .input-group i {
+                top: 2.4rem;
                 font-size: 1rem;
-            }
-            
-            .season-cards {
-                flex-direction: row;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .season-card {
-                width: 320px;
-                height: 200px;
-            }
-            
-            .filters {
-                max-width: 700px;
-                padding: 25px;
-            }
-            
-            .btn {
-                width: auto;
-                padding: 10px 20px;
-            }
-        }
-
-        /* Evitar zoom em inputs no iOS */
-        @media screen and (-webkit-min-device-pixel-ratio:0) {
-            input, select, textarea {
-                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>FLLProPlanner</h1>
-        <p>Gerador de estratégias para a First Lego League</p>
-    </div>
-
-    <div class="main-content">
-        <div class="season-cards">
-            <!-- Card SUBMERGED -->
-            <div class="season-card" onclick="showFilters('submerged')">
-                <div class="card-bg" style="background-image: url('https://i.ytimg.com/vi/xgbDVS7NZI4/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDAgVihyMA8=&rs=AOn4CLBnBAvJjp0nRpPbzecgLbgRraqOdA');">
-                    <div class="card-content">
-                        <h2>SUBMERGED</h2>
-                        <p>Missões aquáticas/exploração oceânica</p>
-                        <span class="badge">Temporada Atual</span>
-                    </div>
-                </div>
+    <!-- Seção Hero -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>FLLPROPLANNER</span>
             </div>
-
-            <!-- Card UNEARTHED -->
-            <div class="season-card" onclick="showFilters('underth')">
-                <div class="card-bg" style="background-image: url('https://up.yimg.com/ib/th/id/OIP.lnug_4cWRkVq5rMFChkgeQHaEK?pid=Api&rs=1&c=1&qlt=95&w=215&h=121');">
-                    <div class="card-content">
-                        <h2>UNEARTHED</h2>
-                        <p>Tema a ser revelado em breve</p>
-                        <span class="badge warning">Em Breve</span>
-                    </div>
+            <h1>ESTRATÉGIAS EFICIENTES PARA VOCÊ</h1>
+            <p>UTILIZE O FLLPROPLANNER PARA MELHORAR O DESEMPENHO DO SEU ROBÔ NA FIRST LEGO LEAGUE</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Estratégias Eficientes</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Colaboração em tempo real</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Relatórios automatizados</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Integrações poderosas</span>
                 </div>
             </div>
         </div>
-        
-        <!-- Filtros (aparecem quando uma temporada é selecionada) -->
-        <div class="filters" id="filters">
-            <h2 id="season-title"><i class="fas fa-water"></i> SUBMERGED</h2>
-            
-            <!-- Botão de Bônus -->
-            <button class="btn btn-bonus" id="bonus-btn" onclick="toggleBonus()">
-                <i class="fas fa-star"></i> Bônus Desativados
-            </button>
-            <input type="hidden" id="bonus-enabled" value="false">
-            
-            <div class="strategy-options">
-                <!-- Máximo de Pontos -->
-                <div class="strategy-card">
-                    <h3><i class="fas fa-trophy"></i> Máximo de Pontos</h3>
-                    <p>Mostra a pontuação máxima possível com todas as missões completas</p>
-                    <button class="btn" onclick="selectStrategy('max')">Selecionar</button>
-                    
-                    <div class="strategy-form" id="max-form">
-                        <button class="btn" onclick="generateMaxPoints()">Gerar Pontuação Máxima</button>
+    </section>
+
+    <!-- Seção de Formulários -->
+    <section class="form-section">
+        <div class="form-container">
+            <!-- Formulário de Registro -->
+            <div class="form-box" id="registerBox">
+                <h2>Crie sua conta</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label for="name">Nome completo</label>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" placeholder="Seu nome completo" required>
                     </div>
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Senha</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required minlength="8">
+                    </div>
+                    <button type="submit" class="form-button">
+                        <i class="fas fa-user-plus"></i> Registrar
+                    </button>
+                </form>
+                <div class="toggle-form">
+                    Já tem uma conta? <a id="showLogin">Faça login</a>
                 </div>
             </div>
-            
-            <!-- Resultados -->
-            <div class="results" id="results">
-                <h3><i class="fas fa-chart-line"></i> Pontuação Máxima</h3>
-                <ul class="mission-list" id="mission-list">
-                    <!-- As missões serão inseridas aqui pelo JavaScript -->
-                </ul>
-                <div class="total-points">
-                    Pontuação Total: <span id="total-points">0</span> pts
-                    <span id="bonus-display" style="display: none;"> (+<span id="bonus-value">0</span> pts de bônus)</span>
+
+            <!-- Formulário de Login (inicialmente escondido) -->
+            <div class="form-box" id="loginBox" style="display: none;">
+                <h2>Bem-vindo de volta</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="loginEmail">E-mail</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="loginPassword">Senha</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="form-button">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                </form>
+                <div class="toggle-form">
+                    Não tem conta? <a id="showRegister">Crie uma</a>
                 </div>
-                <button class="btn" onclick="saveStrategy()"><i class="fas fa-save"></i> Salvar Estratégia</button>
-                <button class="btn btn-secondary" onclick="resetStrategy()"><i class="fas fa-redo"></i> Nova Estratégia</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mensagens -->
+    <div class="message success" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <span>Registro concluído com sucesso!</span>
+    </div>
+
+    <div class="message error" id="errorMessage" style="display: none;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="errorText">Erro ao processar sua requisição</span>
+    </div>
+
+    <!-- Modal de Termos -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Termos de Serviço</h3>
+                <button class="modal-close" id="closeTerms">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Ao usar o FLLProPlanner, você concorda com nossos termos de serviço e política de privacidade.</p>
+                <!-- Conteúdo completo dos termos aqui -->
             </div>
         </div>
     </div>
 
     <script>
-        // Tabela SEM bônus (valores base)
-        const baseMissions = {
-            submerged: [
-                { id: 1, name: "M01 Berçário de Corais", points: 40 },
-                { id: 2, name: "M02 Tubarão", points: 30 },
-                { id: 3, name: "M03 Recife de Coral", points: 35 },
-                { id: 4, name: "M04 Mergulhador", points: 40 },
-                { id: 5, name: "M05 Peixe pescador", points: 30 },
-                { id: 6, name: "M06 Levantamento do Mastro", points: 30 },
-                { id: 7, name: "M07 Tesouro do Kraken", points: 20 },
-                { id: 8, name: "M08 Habitat Artificial", points: 40 },
-                { id: 9, name: "M09 Encontro inesperado", points: 30 },
-                { id: 10, name: "M10 Envio do submersível", points: 40 },
-                { id: 11, name: "M11 Detecção por sonar", points: 20 },
-                { id: 12, name: "M12 Alimentem a Baleia", points: 50 },
-                { id: 13, name: "M13 Mudança de Rotas de Navegação", points: 20 },
-                { id: 14, name: "M14 Coleta de Amostra", points: 45 },
-                { id: 15, name: "M15 Navio de pesquisa", points: 50 }
-            ],
-            underth: []
-        };
+        // Elementos do DOM
+        const registerBox = document.getElementById('registerBox');
+        const loginBox = document.getElementById('loginBox');
+        const showLogin = document.getElementById('showLogin');
+        const showRegister = document.getElementById('showRegister');
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const termsModal = document.getElementById('termsModal');
+        const closeTerms = document.getElementById('closeTerms');
 
-        // Tabela COM bônus (valores já incluindo os bônus)
-        const missionsWithBonus = {
-            submerged: [
-                { id: 1, name: "M01 Berçário de Corais", points: 50 },
-                { id: 2, name: "M02 Tubarão", points: 30 },
-                { id: 3, name: "M03 Recife de Coral", points: 35 },
-                { id: 4, name: "M04 Mergulhador", points: 40 },
-                { id: 5, name: "M05 Peixe pescador", points: 30 },
-                { id: 6, name: "M06 Levantamento do Mastro", points: 30 },
-                { id: 7, name: "M07 Tesouro do Kraken", points: 20 },
-                { id: 8, name: "M08 Habitat Artificial", points: 40 },
-                { id: 9, name: "M09 Encontro inesperado", points: 30 },
-                { id: 10, name: "M10 Envio do submersível", points: 40 },
-                { id: 11, name: "M11 Detecção por sonar", points: 30 },
-                { id: 12, name: "M12 Alimentem a Baleia", points: 50 },
-                { id: 13, name: "M13 Mudança de Rotas de Navegação", points: 20 },
-                { id: 14, name: "M14 Coleta de Amostra", points: 55 },
-                { id: 15, name: "M15 Navio de pesquisa", points: 50 }
-            ],
-            underth: []
-        };
-
-        let currentSeason = '';
-        let currentStrategy = '';
-        let generatedStrategy = [];
-        let bonusEnabled = false;
-
-        // Mostrar filtros quando uma temporada é selecionada
-        function showFilters(season) {
-            const filters = document.getElementById('filters');
-            const title = document.getElementById('season-title');
-            const icon = title.querySelector('i');
+        // Alternar entre login e registro com animação
+        function toggleForms(hide, show) {
+            hide.style.opacity = '0';
+            hide.style.transform = 'translateY(10px)';
             
-            icon.className = 'fas';
+            setTimeout(() => {
+                hide.style.display = 'none';
+                show.style.display = 'block';
+                setTimeout(() => {
+                    show.style.opacity = '1';
+                    show.style.transform = 'translateY(0)';
+                }, 20);
+            }, 300);
+        }
+
+        showLogin.addEventListener('click', () => toggleForms(registerBox, loginBox));
+        showRegister.addEventListener('click', () => toggleForms(loginBox, registerBox));
+
+        // Validar email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Validar senha forte
+        function validatePassword(password) {
+            return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password);
+        }
+
+        // Mostrar mensagem
+        function showMessage(element, text = '', duration = 3000) {
+            if (text) {
+                const span = element.querySelector('span');
+                if (span) span.textContent = text;
+            }
             
-            if (season === 'submerged') {
-                title.innerHTML = '<i class="fas fa-water"></i> SUBMERGED';
-                currentSeason = 'submerged';
-            } else if (season === 'underth') {
-                title.innerHTML = '<i class="fas fa-mountain"></i> UNEARTHED';
-                alert("Esta temporada ainda não está disponível. Fique atento para o lançamento!");
+            element.classList.add('show');
+            
+            setTimeout(() => {
+                element.classList.remove('show');
+            }, duration);
+        }
+
+        // Processar registro
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            
+            // Validações
+            if (!name || !email || !password) {
+                errorText.textContent = 'Por favor, preencha todos os campos!';
+                showMessage(errorMessage);
                 return;
             }
             
-            filters.classList.add('active');
-            resetStrategy();
-            
-            // Rolagem suave para os filtros
-            setTimeout(() => {
-                filters.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
-        }
-
-        // Ativar/desativar bônus
-        function toggleBonus() {
-            bonusEnabled = !bonusEnabled;
-            document.getElementById('bonus-enabled').value = bonusEnabled;
-            const btn = document.getElementById('bonus-btn');
-            
-            if (bonusEnabled) {
-                btn.innerHTML = '<i class="fas fa-star"></i> Bônus Ativados';
-                btn.style.backgroundColor = '#f8961e';
-            } else {
-                btn.innerHTML = '<i class="fas fa-star"></i> Bônus Desativados';
-                btn.style.backgroundColor = '';
+            if (!validateEmail(email)) {
+                errorText.textContent = 'Por favor, insira um e-mail válido!';
+                showMessage(errorMessage);
+                return;
             }
             
-            // Recalcular se já tiver uma estratégia gerada
-            if (generatedStrategy.length > 0) {
-                generateMaxPoints();
+            if (!validatePassword(password)) {
+                errorText.textContent = 'A senha deve conter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas e números';
+                showMessage(errorMessage);
+                return;
             }
-        }
-
-        // Selecionar tipo de estratégia
-        function selectStrategy(strategy) {
-            document.querySelectorAll('.strategy-form').forEach(form => {
-                form.classList.remove('active');
-            });
             
-            document.getElementById(strategy + '-form').classList.add('active');
-            document.getElementById('results').classList.remove('active');
-            currentStrategy = strategy;
-        }
-
-        // Gerar pontuação máxima (todas as missões)
-        function generateMaxPoints() {
-            if (!currentSeason) return;
+            const button = this.querySelector('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+            button.classList.add('loading');
             
-            // Usa a tabela apropriada conforme os bônus estão ativados ou não
-            const missionsToUse = bonusEnabled ? missionsWithBonus[currentSeason] : baseMissions[currentSeason];
-            
-            // Cria uma cópia das missões
-            let allMissions = [...missionsToUse];
-            
-            displayResults(allMissions);
-        }
-
-        // Exibe os resultados na tela
-        function displayResults(missions) {
-            generatedStrategy = missions;
-            const missionList = document.getElementById('mission-list');
-            const totalPointsElement = document.getElementById('total-points');
-            const bonusDisplay = document.getElementById('bonus-display');
-            const bonusValue = document.getElementById('bonus-value');
-            
-            missionList.innerHTML = '';
-            
-            let totalPoints = 0;
-            let totalBonus = 0;
-            
-            missions.forEach(mission => {
-                const li = document.createElement('li');
-                li.className = 'mission-item';
+            try {
+                // Simular requisição à API
+                await new Promise(resolve => setTimeout(resolve, 1500));
                 
-                // Encontra a missão correspondente na tabela base para calcular o bônus
-                const baseMission = baseMissions[currentSeason].find(m => m.id === mission.id);
-                const bonus = bonusEnabled ? mission.points - (baseMission ? baseMission.points : 0) : 0;
+                // Simular resposta da API
+                const success = Math.random() > 0.2; // 80% de chance de sucesso para demonstração
                 
-                li.innerHTML = `
-                    <span>${mission.name}</span>
-                    <span class="mission-points">${bonusEnabled && baseMission ? baseMission.points : mission.points} pts${bonus > 0 ? ` <span class="bonus-points">(+${bonus})</span>` : ''}</span>
-                `;
-                missionList.appendChild(li);
-                
-                totalPoints += mission.points;
-                totalBonus += bonus;
-            });
+                if (success) {
+                    showMessage(successMessage, 'Registro concluído com sucesso!');
+                    
+                    // Preencher automaticamente o email no login
+                    document.getElementById('loginEmail').value = email;
+                    
+                    // Mudar para tela de login
+                    setTimeout(() => toggleForms(registerBox, loginBox), 1500);
+                    
+                    // Limpar formulário
+                    this.reset();
+                } else {
+                    throw new Error('Erro ao conectar com o servidor. Tente novamente mais tarde.');
+                }
+            } catch (error) {
+                errorText.textContent = error.message;
+                showMessage(errorMessage);
+            } finally {
+                button.innerHTML = originalText;
+                button.classList.remove('loading');
+            }
+        });
+
+        // Processar login
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // Mostrar bônus se aplicável
-            if (bonusEnabled && totalBonus > 0) {
-                bonusDisplay.style.display = 'inline';
-                bonusValue.textContent = totalBonus;
-            } else {
-                bonusDisplay.style.display = 'none';
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                errorText.textContent = 'Por favor, preencha todos os campos!';
+                showMessage(errorMessage);
+                return;
             }
             
-            totalPointsElement.textContent = totalPoints;
-            document.getElementById('results').classList.add('active');
+            const button = this.querySelector('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+            button.classList.add('loading');
             
-            // Rolagem suave para os resultados
-            setTimeout(() => {
-                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
-        }
-
-        // Salvar estratégia (simulado)
-        function saveStrategy() {
-            if (generatedStrategy.length === 0) return;
-            
-            const strategyName = prompt("Digite um nome para esta estratégia:");
-            if (strategyName) {
-                alert(`Estratégia "${strategyName}" salva com sucesso!`);
+            try {
+                // Simular requisição à API
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Simular resposta da API
+                const success = Math.random() > 0.2; // 80% de chance de sucesso para demonstração
+                
+                if (success) {
+                    // Redirecionar para dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    throw new Error('E-mail ou senha incorretos. Tente novamente.');
+                }
+            } catch (error) {
+                errorText.textContent = error.message;
+                showMessage(errorMessage);
+            } finally {
+                button.innerHTML = originalText;
+                button.classList.remove('loading');
             }
-        }
+        });
 
-        // Reiniciar
-        function resetStrategy() {
-            document.querySelectorAll('.strategy-form').forEach(form => {
-                form.classList.remove('active');
-            });
-            document.getElementById('results').classList.remove('active');
-            currentStrategy = '';
-            generatedStrategy = [];
-            bonusEnabled = false;
-            document.getElementById('bonus-enabled').value = 'false';
-            document.getElementById('bonus-btn').innerHTML = '<i class="fas fa-star"></i> Bônus Desativados';
-            document.getElementById('bonus-btn').style.backgroundColor = '';
-        }
+        // Modal de termos
+        closeTerms.addEventListener('click', () => {
+            termsModal.classList.remove('active');
+        });
+
+        // Verificar parâmetros da URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.has('error')) {
+                errorText.textContent = decodeURIComponent(urlParams.get('error'));
+                showMessage(errorMessage);
+            }
+            
+            if (urlParams.has('redirect') && urlParams.get('redirect') === 'login') {
+                document.getElementById('loginEmail').value = urlParams.get('email') || '';
+                loginBox.style.display = 'block';
+                registerBox.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
